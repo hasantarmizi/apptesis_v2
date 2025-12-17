@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block title %}Dashboard Guru BK{% endblock %}
+
+{% block nav %}
+  <div class="flex items-center gap-4">
+    <!-- Beranda menuju dashboard guru -->
+    <a href="{{ url_for('guru.dashboard_guru') }}" class="px-3 py-2 rounded-md hover:bg-gray-100">Beranda</a>
+    <a href="{{ url_for('auth.logout') }}" class="px-3 py-2 rounded-md">Logout</a>
+  </div>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto">
+  <!-- Stats + actions -->
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-6">
+    <!-- Stats -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 flex-1">
+      <div class="bg-gradient-to-r from-blue-600 to-blue-400 text-white rounded-xl p-5 flex flex-col items-center shadow">
+        <div class="text-3xl font-bold">{{ siswa_sudah_tes }}</div>
+        <div class="text-white mt-2 text-sm">Siswa Sudah Tes</div>
+      </div>
+      <div class="bg-gradient-to-r from-blue-400 to-blue-300 text-white rounded-xl p-5 flex flex-col items-center shadow">
+        <div class="text-3xl font-bold">{{ siswa_belum_tes }}</div>
+        <div class="text-white mt-2 text-sm">Siswa Belum Tes</div>
+      </div>
+      <div class="bg-gradient-to-r from-cyan-400 to-blue-300 text-white rounded-xl p-5 flex flex-col items-center shadow">
+        <div class="text-lg font-bold mb-1">Distribusi Paket</div>
+        <div class="text-white text-sm">
+          Paket 1: {{ distribusi[0] if distribusi|length > 0 else 0 }}<br>
+          Paket 2: {{ distribusi[1] if distribusi|length > 1 else 0 }}<br>
+          Paket 3: {{ distribusi[2] if distribusi|length > 2 else 0 }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions: search + download -->
+    <div class="flex gap-3 items-center">
+      <form method="get" action="{{ url_for('guru.dashboard_guru') }}" class="flex items-center gap-2">
+        <input
+          name="q"
+          value="{{ request.args.get('q','') }}"
+          type="search"
+          placeholder="Cari nama atau NISN..."
+          class="px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+          aria-label="Cari siswa"
+        />
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Cari</button>
+      </form>
+
+      <a href="{{ url_for('guru.download_csv') }}" class="border px-4 py-2 rounded-lg font-semibold hover:bg-gray-100">Download CSV</a>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="bg-white rounded-xl shadow p-4">
+    <div class="overflow-x-auto">
+      <table class="min-w-full w-full table-auto">
+        <thead>
+          <tr class="bg-gray-100 text-left">
+            <!-- Order: NISN, NAMA SISWA, KELAS, HASIL TES RIASEC, HASIL REKOMENDASI, AKSI -->
+            <th class="py-3 px-4 text-sm font-medium">NISN</th>
+            <th class="py-3 px-4 text-sm font-medium">Nama Siswa</th>
+            <th class="py-3 px-4 text-sm font-medium">Kelas</th>
+            <th class="py-3 px-4 text-sm font-medium">Hasil Tes RIASEC</th>
+            <th class="py-3 px-4 text-sm font-medium">Hasil Rekomendasi</th>
+            
+          </tr>
+        </thead>
+        <tbody class="divide-y">
+          {% if siswa_list %}
+            {% for siswa in siswa_list %}
+            <tr class="hover:bg-gray-50">
+              <td class="py-3 px-4 align-top text-sm text-gray-700">{{ siswa.nisn }}</td>
+
+              <td class="py-3 px-4 align-top">
+                <div class="font-medium">{{ siswa.nama }}</div>
+              </td>
+
+              <td class="py-3 px-4 align-top text-sm text-gray-700">{{ siswa.kelas if siswa.kelas else '-' }}</td>
+
+              <td class="py-3 px-4 align-top text-sm text-gray-700">{{ siswa.kode_riasec if siswa.kode_riasec else '-' }}</td>
+
+              <td class="py-3 px-4 align-top">
+                {% if siswa.paket_rekomendasi %}
+                  <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
+                    {% if '1' in siswa.paket_rekomendasi %} bg-blue-50 text-blue-700
+                    {% elif '2' in siswa.paket_rekomendasi %} bg-amber-50 text-amber-700
+                    {% elif '3' in siswa.paket_rekomendasi %} bg-green-50 text-green-700
+                    {% else %} bg-gray-100 text-gray-700 {% endif %}">
+                    {{ siswa.paket_rekomendasi }}
+                  </span>
+                {% else %}
+                  <span class="text-sm text-gray-500">-</span>
+                {% endif %}
+              </td>
+
+              
+            </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="6" class="py-8 px-4 text-center text-gray-500">
+                Belum ada data siswa. Gunakan filter atau unggah data untuk menampilkan daftar.
+              </td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination / controls (simple placeholder) -->
+    <div class="mt-4 flex items-center justify-between">
+      <div class="text-sm text-gray-600">
+        Menampilkan {{ siswa_list|length }} dari {{ siswa_total }} siswa
+      </div>
+      <div class="flex items-center gap-2">
+        {% if pagination is defined %}
+          {{ pagination.links()|safe }}
+        {% else %}
+          <nav class="inline-flex items-center gap-2">
+            <button class="px-3 py-1 rounded-md border text-sm text-gray-600">Prev</button>
+            <button class="px-3 py-1 rounded-md border text-sm text-gray-600">1</button>
+            <button class="px-3 py-1 rounded-md border text-sm text-gray-600">2</button>
+            <button class="px-3 py-1 rounded-md border text-sm text-gray-600">Next</button>
+          </nav>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

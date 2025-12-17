@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% block title %}RIASEC Explorer — Beranda{% endblock %}
+
+{% block nav %}
+<nav class="flex justify-between items-center px-6 py-3 bg-transparent">
+  
+  <div class="flex gap-6 items-center font-semibold">
+    <a href="#beranda" class="hover:text-blue-700">Beranda</a>
+    <a href="#tentang" class="hover:text-blue-700">Tentang</a>
+    <a href="#profil" class="hover:text-blue-700">Profil Pengembang</a>
+    <a href="#kontak" class="hover:text-blue-700">Kontak</a>
+    <a href="{{ url_for('auth.login') }}" class="ml-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full transition">Login</a>
+  </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<!-- HERO -->
+<section id="beranda" class="bg-gradient-to-r from-white to-blue-50">
+  <div class="max-w-6xl mx-auto px-2 py-8 lg:py-2 flex flex-col-reverse lg:flex-row items-center gap-10">
+    <!-- Left: Headline -->
+    <div class="w-full lg:w-1/2">
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 leading-tight">
+        Temukan Paket Mata Pelajaran<br class="hidden md:inline">Sesuai Minat & Bakatmu
+      </h1>
+      <p class="mt-4 text-slate-600 max-w-xl">
+        Rekomendasi paket mata pelajaran pilihan berbasis Machine Learning.
+        Dapatkan saran yang disesuaikan dengan hasil tes RIASEC dan nilai rapor.
+      </p>
+
+      <div class="mt-8 flex gap-3">
+        <a href="{{ url_for('auth.login') }}" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-lg shadow">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H3m0 0l4-4m-4 4l4 4M21 12v7a2 2 0 0 1-2 2H7" /></svg>
+          Login
+        </a>
+
+        <a href="#tentang" class="inline-flex items-center gap-2 border border-blue-200 text-blue-700 bg-white px-5 py-3 rounded-lg">
+          Pelajari Lebih Lanjut
+        </a>
+      </div>
+
+      <!-- small badges / highlights -->
+      <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="flex items-start gap-3">      
+        </div>
+        <div class="flex items-start gap-3">
+        </div>
+        <div class="flex items-start gap-3">
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Illustration -->
+    <div class="w-full lg:w-1/2 flex justify-center lg:justify-end">
+      <img src="{{ url_for('static', filename='img/hero_illustration.png') }}" alt="Ilustrasi" class="w-72 md:w-96 lg:w-[36rem] max-w-full" />
+    </div>
+  </div>
+</section>
+
+<!-- TENTANG / FEATURES -->
+<section id="tentang" class="py-12">
+  <div class="max-w-4xl mx-auto px-6 text-center">
+    <h2 class="text-xl font-bold text-slate-900">Tentang RIASEC Explorer</h2>
+    <p class="mt-4 text-slate-600 max-w-2xl mx-auto">
+      RIASEC Explorer adalah platform untuk membantu siswa menemukan paket mata pelajaran pilihan yang sesuai minat dan bakat menggunakan teknologi kecerdasan buatan.
+    </p>
+
+    <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="text-center">
+            <div class="mx-auto w-20 h-20 rounded-lg bg-white shadow flex items-center justify-center">
+            <img src="{{ url_for('static', filename='img/icon_ai.png') }}" alt="Berbasis AI" class="w-10 h-10" />
+        </div>
+            <h3 class="mt-4 font-semibold text-slate-900">Berbasis AI</h3>
+            <p class="mt-2 text-slate-500 text-sm">Menggerakkan model canggih (Machine Learning).</p>
+  </div>
+
+       <div class="text-center">
+    <div class="mx-auto w-20 h-20 rounded-lg bg-white shadow flex items-center justify-center">
+      <img src="{{ url_for('static', filename='img/icon_akurat.png') }}" alt="Hasil yang Akurat" class="w-10 h-10" />
+    </div>
+    <h3 class="mt-4 font-semibold text-slate-900">Hasil yang Akurat</h3>
+    <p class="mt-2 text-slate-500 text-sm">Rekomendasi berdasarkan tes dan data rapor.</p>
+  </div>
+
+      <div class="text-center">
+    <div class="mx-auto w-20 h-20 rounded-lg bg-white shadow flex items-center justify-center">
+      <img src="{{ url_for('static', filename='img/icon_personal.png') }}" alt="Pendekatan Personal" class="w-10 h-10" />
+    </div>
+    <h3 class="mt-4 font-semibold text-slate-900">Pendekatan Personal</h3>
+    <p class="mt-2 text-slate-500 text-sm">Disesuaikan dengan minat dan bakat individu.</p>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROFILE / TEAM -->
+<section id="profil" class="py-12 bg-gradient-to-b from-white to-blue-50">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-center text-xl font-bold text-slate-900">Profil Pengembang</h2>
+    <p class="mt-3 text-center text-slate-600 max-w-2xl mx-auto">RIASEC Explorer dikembangkan sebagai media dalam penelitian Tesis Pengembang</p>
+
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Card 1 -->
+      <div class="bg-white rounded-2xl shadow-md p-6 flex gap-4 items-center">
+        <img src="{{ url_for('static', filename='img/mizi.jpg') }}" alt="Mahasiswa" class="w-28 h-28 rounded-xl object-cover shadow-sm" />
+        <div>
+          <div class="text-lg font-semibold text-slate-900">Hasan Tarmizi Nasution</div>
+          <div class="text-sm text-slate-600 mt-1">Mahasiswa PTEI UNY</div>
+
+          <p class="mt-3 text-sm text-slate-500">Pengembang sistem rekomendasi paket mata pelajaran berbasis RIASEC dan nilai rapor.</p>
+
+          <div class="mt-4 flex gap-3">
+            
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="bg-white rounded-2xl shadow-md p-6 flex gap-4 items-center">
+        <img src="{{ url_for('static', filename='img/fatchul.jpg') }}" alt="Pembimbing" class="w-28 h-28 rounded-xl object-cover shadow-sm" />
+        <div>
+          <div class="text-lg font-semibold text-slate-900">Dr. Ir. Fatchul Arifin, S.T., M.T.</div>
+          <div class="text-sm text-slate-600 mt-1">Dosen Pembimbing</div>
+
+          <p class="mt-3 text-sm text-slate-500">Pembimbing penelitian dengan keahlian di bidang Artificial Intelligence.</p>
+
+          <div class="mt-4 flex gap-3">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="kontak" class="py-12">
+  <div class="max-w-4xl mx-auto px-6 text-center">
+    <h2 class="text-xl font-bold text-slate-900">Kontak Pengembang</h2>
+    <p class="mt-3 text-slate-600">Untuk pertanyaan, kerja sama uji coba, atau masukan pengembangan, silakan hubungi:</p>
+
+    <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div class="bg-white rounded-lg border p-4 shadow-sm">
+        <div class="font-semibold text-slate-800">Email</div>
+        <div class="mt-2 text-sm text-slate-600">hasan.tarmizi6@gmail.com</div>
+        <a href="mailto:hasantarmizi@gmail.com" class="mt-4 inline-block px-4 py-2 bg-blue-600 text-white rounded-lg">Kirim Email</a>
+      </div>
+
+      <div class="bg-white rounded-lg border p-4 shadow-sm">
+        <div class="font-semibold text-slate-800">WhatsApp</div>
+        <div class="mt-2 text-sm text-slate-600">+62-812-1234-5579</div>
+        <a href="https://wa.me/6281212345579" target="_blank" class="mt-4 inline-block px-4 py-2 bg-emerald-500 text-white rounded-lg">Chat via WhatsApp</a>
+      </div>
+
+      <div class="bg-white rounded-lg border p-4 shadow-sm">
+        <div class="font-semibold text-slate-800">Sosial</div>
+        <div class="mt-2 text-sm text-slate-600">@hasantarmizi</div>
+        <a href="https://github.com/hasantarmizi" target="_blank" class="mt-4 inline-block px-4 py-2 border border-blue-200 text-blue-700 rounded-lg">Lihat Profil</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-6 bg-white">
+  <div class="max-w-6xl mx-auto px-6 text-center text-sm text-slate-500">
+    © {{ current_year if current_year is defined else 2025 }} RIASEC Explorer — Developed by Hasan Tarmizi
+  </div>
+</footer>
+{% endblock %}
